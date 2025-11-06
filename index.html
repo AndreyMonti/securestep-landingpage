@@ -12,6 +12,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-decoration: none;
         }
 
         /* Paleta de cores */
@@ -46,12 +47,11 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
+            height: 80px;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--verde-claro);
+            height: 250px;
         }
 
         .nav-links {
@@ -93,15 +93,30 @@
 
         /* Hero Section */
         .hero {
+            position: relative;
             background: linear-gradient(135deg, var(--azul-escuro) 0%, #0a2d38 100%);
             color: white;
             padding: 4rem 2rem;
             text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3; /* Opacidade reduzida para o vídeo */
+            z-index: 0;
         }
 
         .hero-content {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -141,6 +156,10 @@
             background-color: var(--verde-amarelo);
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        a {
+            color: inherit;
         }
 
         .secondary-button {
@@ -214,9 +233,10 @@
             background-color: #f0f5e9;
         }
 
+        /* Ajustado: forçar 2 colunas (2 em cima e 2 embaixo) */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
         }
 
@@ -536,6 +556,11 @@
             .steps {
                 flex-direction: column;
             }
+
+            /* Em telas menores, usar 1 coluna */
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Menu Hamburger para Mobile */
@@ -723,20 +748,179 @@
                 padding: 1.5rem;
             }
         }
+
+        /* Estilo do Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--azul-escuro);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background-color: var(--verde-musgo);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--azul-escuro);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--verde-claro);
+            outline: none;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 0.7rem;
+            background-color: var(--verde-claro);
+            color: var(--azul-escuro);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--verde-amarelo);
+        }
+
+        /* Alertas Modernos */
+        .alert-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1100;
+        }
+
+        .alert-box.success {
+            background-color: var(--verde-claro);
+        }
+
+        .alert-box.error {
+            background-color: #e74c3c;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Modal do Formulário -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2>Preencha o Formulário</h2>
+            <form id="purchaseForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" name="telefone" required pattern="^\+?[0-9\s\-]{8,15}$">
+                </div>
+                <div class="form-group">
+                    <label for="mensagem">Mensagem:</label>
+                    <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="cta-button">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alertas Modernos -->
+    <div id="alertBox" class="alert-box"></div>
+
     <!-- Header -->
     <header>
         <nav class="navbar">
-            <div class="logo">SecureStep</div>
+            <img src="logo.png" class="logo" alt="Logo da Empresa">
             <ul class="nav-links">
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="#recursos">Recursos</a></li>
                 <li><a href="#como-funciona">Como Funciona</a></li>
-                <li><a href="#precos">Preços</a></li>
-                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#faq">Perguntas</a></li>
             </ul>
             <div class="menu-toggle" id="menuToggle">
                 <span></span>
@@ -757,8 +941,7 @@
             <li><a href="#sobre" class="mobile-nav-link">Sobre</a></li>
             <li><a href="#recursos" class="mobile-nav-link">Recursos</a></li>
             <li><a href="#como-funciona" class="mobile-nav-link">Como Funciona</a></li>
-            <li><a href="#precos" class="mobile-nav-link">Preços</a></li>
-            <li><a href="#faq" class="mobile-nav-link">FAQ</a></li>
+            <li><a href="#faq" class="mobile-nav-link">Perguntas</a></li>
         </ul>
         <div class="mobile-menu-footer">
             <button class="cta-button" style="width: 100%;">Comprar Agora</button>
@@ -767,13 +950,20 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <!-- Vídeo de fundo -->
+        <video autoplay muted loop class="hero-video">
+            <source src="cegoandando.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
         <div class="hero-content">
             <h1>Autonomia e Segurança para Pessoas com Deficiência Visual</h1>
             <p>SecureStep é a bengala inteligente que combina tecnologia de ponta com design inclusivo para promover
                 independência e confiança em cada passo.</p>
             <div class="hero-buttons">
                 <button class="primary-button">Comprar Agora</button>
-                <button class="secondary-button">Saiba Mais</button>
+                <button class="secondary-button">
+                    <a href="#recursos">Saiba Mais</a>
+                </button>
             </div>
         </div>
     </section>
@@ -788,11 +978,10 @@
         <div class="about-content">
             <div class="about-text">
                 <h3>Tecnologia que Empodera</h3>
-                <p>A SecureStep utiliza sensores ultrassônicos, LiDAR, GPS e Inteligência Artificial para detectar e
+                <p><br>A SecureStep utiliza sensores ultrassônicos, LiDAR, GPS e Inteligência Artificial para detectar e
                     classificar obstáculos em tempo real, fornecendo feedback por som e vibração.</p>
                 <p>Nossa missão é promover segurança, autonomia e inclusão social para pessoas com deficiência visual,
                     através de tecnologia acessível que combina inteligência artificial e design inclusivo.</p>
-                <button class="cta-button" style="margin-top: 1.5rem;">Saiba Mais</button>
             </div>
             <div class="about-image">
                 [IMAGEM DA BENGALA INTELIGENTE]
@@ -801,7 +990,7 @@
     </section>
 
     <!-- Recursos -->
-     <section id="recursos" class="section features">
+    <section id="recursos" class="section features">
         <div class="section-title">
             <h2>Recursos Inovadores</h2>
             <p>Conheça as tecnologias que tornam a SecureStep única no mercado.</p>
@@ -810,7 +999,7 @@
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
                     </svg>
                 </div>
                 <h3>Sensores Ultrassônicos</h3>
@@ -819,17 +1008,15 @@
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                     </svg>
                 </div>
                 <h3>LiDAR e GPS</h3>
                 <p>Mapeamento preciso do ambiente e localização para navegação em espaços abertos e fechados.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm-1 5v4h2V8h-2zm0 6v2h2v-2h-2z"/>
-                    </svg>
+                <div class="feature-icon" style="font-family: 'Arial Black', sans-serif; font-size: 24px; font-weight: bold;">
+                    IA
                 </div>
                 <h3>Inteligência Artificial</h3>
                 <p>Classifica obstáculos em tempo real, diferenciando entre pessoas, objetos e desníveis no piso.</p>
@@ -837,7 +1024,7 @@
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
                     </svg>
                 </div>
                 <h3>Feedback Multissensorial</h3>
@@ -995,30 +1182,27 @@
                     <li><a href="#sobre">Sobre</a></li>
                     <li><a href="#recursos">Recursos</a></li>
                     <li><a href="#como-funciona">Como Funciona</a></li>
-                    <li><a href="#precos">Preços</a></li>
-                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#faq">Perguntas</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Contato</h3>
                 <ul class="footer-links">
-                    <li>Email: contato@securestep.com</li>
-                    <li>Telefone: (11) 3456-7890</li>
-                    <li>Endereço: Rua da Inovação, 123 - São Paulo, SP</li>
+                    <li>Email: securestep@gmail.com</li>
+                    <li>Instagram: @SecureStep</li>
                 </ul>
             </div>
             <div class="footer-column">
-                <h3>Newsletter</h3>
-                <p>Inscreva-se para receber novidades e ofertas especiais.</p>
-                <form>
-                    <input type="email" placeholder="Seu e-mail"
-                        style="padding: 0.7rem; border-radius: 4px; border: none; margin-top: 0.5rem; width: 100%;">
-                    <button type="submit" class="cta-button" style="margin-top: 0.5rem; width: 100%;">Inscrever</button>
-                </form>
+                <h3>Integrantes</h3>
+                <p>Andrey Montibeller</p>
+                <p>Gustavo Martis</p>
+                <p>Rafael Leal</p>
+                <p>Rian Eduardo</p>
+                <p>Samuel Boaz</p>
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2023 SecureStep. Todos os direitos reservados.</p>
+            <p>&copy; 2025 SecureStep. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -1086,6 +1270,74 @@
         // Fechar menu ao clicar em um link
         mobileNavLinks.forEach(link => {
             link.addEventListener('click', toggleMobileMenu);
+        });
+
+        // Modal Formulário
+        const modal = document.getElementById('formModal');
+        const closeModal = document.getElementById('closeModal');
+        const buyButtons = document.querySelectorAll('.primary-button');
+        const form = document.getElementById('purchaseForm');
+        const alertBox = document.getElementById('alertBox');
+
+        // Função para exibir alertas modernos
+        function showAlert(message, type = 'success') {
+            alertBox.textContent = message;
+            alertBox.className = `alert-box ${type}`;
+            alertBox.style.display = 'block';
+            setTimeout(() => {
+                alertBox.style.opacity = '1';
+            }, 10); // Delay para animação de fade-in
+            setTimeout(() => {
+                alertBox.style.opacity = '0';
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 300); // Delay para animação de fade-out
+            }, 3000); // Tempo de exibição
+        }
+
+        // Abrir modal
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Fechar modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Validação do formulário
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = form.email.value.trim();
+            const telefone = form.telefone.value.trim();
+            const mensagem = form.mensagem.value.trim();
+
+            if (!email || !telefone || !mensagem) {
+                showAlert('Por favor, preencha todos os campos corretamente.', 'error');
+                return;
+            }
+
+            if (!form.telefone.checkValidity()) {
+                showAlert('Por favor, insira um telefone válido.', 'error');
+                return;
+            }
+
+            // Sucesso
+            showAlert('Formulário enviado com sucesso! Um email foi enviado para confirmar sua compra.', 'success');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+            form.reset();
         });
     </script>
 </body>
