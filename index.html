@@ -351,79 +351,108 @@
             margin-right: 1rem;
         }
 
-        /* Preços */
+        /* Preços - Layout Horizontal */
         .pricing {
             background-color: #f0f5e9;
         }
 
-        .pricing-cards {
+        .pricing-horizontal {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .pricing-card {
             background-color: white;
-            border-radius: 10px;
-            padding: 2.5rem;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            width: 300px;
-            transition: transform 0.3s;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        .pricing-card:hover {
-            transform: translateY(-10px);
+        .pricing-left {
+            flex: 1;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--azul-escuro) 0%, #0a2d38 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .pricing-card.featured {
-            border: 2px solid var(--verde-claro);
-            position: relative;
-            transform: scale(1.05);
-        }
-
-        .featured-badge {
+        .pricing-badge {
             background-color: var(--verde-claro);
             color: var(--azul-escuro);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 30px;
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .pricing-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--verde-claro);
+        }
+
+        .pricing-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .price-container {
+            margin: 2rem 0;
+        }
+
+        .price-main {
+            font-size: 4rem;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-cents {
+            font-size: 2rem;
             font-weight: bold;
         }
 
-        .price {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--azul-escuro);
-            margin: 1.5rem 0;
+        .price-installments {
+            font-size: 1.2rem;
+            margin-top: 1rem;
         }
 
-        .price span {
-            font-size: 1rem;
-            color: #666;
+        .pricing-right {
+            flex: 1.2;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .pricing-features {
             list-style: none;
-            margin: 2rem 0;
-            text-align: left;
+            margin-bottom: 2rem;
         }
 
         .pricing-features li {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
+            font-size: 1.1rem;
         }
 
         .pricing-features li:before {
             content: "✓";
             color: var(--verde-musgo);
-            margin-right: 0.5rem;
+            margin-right: 1rem;
             font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .pricing-button {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            margin-top: 1rem;
         }
 
         /* FAQ */
@@ -561,6 +590,19 @@
             /* Em telas menores, usar 1 coluna */
             .features-grid {
                 grid-template-columns: 1fr;
+            }
+
+            /* Layout horizontal de preços para mobile */
+            .pricing-horizontal {
+                flex-direction: column;
+            }
+
+            .pricing-left, .pricing-right {
+                padding: 2rem;
+            }
+
+            .price-main {
+                font-size: 3rem;
             }
         }
 
@@ -713,15 +755,6 @@
                 flex-direction: column;
             }
 
-            .pricing-cards {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .pricing-card.featured {
-                transform: scale(1);
-            }
-
             .footer-content {
                 flex-direction: column;
             }
@@ -741,11 +774,6 @@
             }
 
             .feature-card {
-                padding: 1.5rem;
-            }
-
-            .pricing-card {
-                width: 100%;
                 padding: 1.5rem;
             }
         }
@@ -921,6 +949,7 @@
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="#recursos">Recursos</a></li>
                 <li><a href="#como-funciona">Como Funciona</a></li>
+                <li><a href="#precos">Preços</a></li>
                 <li><a href="#faq">Perguntas</a></li>
             </ul>
             <div class="menu-toggle" id="menuToggle">
@@ -942,6 +971,7 @@
             <li><a href="#sobre" class="mobile-nav-link">Sobre</a></li>
             <li><a href="#recursos" class="mobile-nav-link">Recursos</a></li>
             <li><a href="#como-funciona" class="mobile-nav-link">Como Funciona</a></li>
+            <li><a href="#precos" class="mobile-nav-link">Preços</a></li>
             <li><a href="#faq" class="mobile-nav-link">Perguntas</a></li>
         </ul>
         <div class="mobile-menu-footer">
@@ -1064,6 +1094,41 @@
         </div>
     </section>
 
+    <!-- Nova Seção de Preços - Layout Horizontal -->
+    <section id="precos" class="section pricing">
+        <div class="section-title">
+            <h2>Invista na Sua Independência</h2>
+            <p>Adquira a SecureStep e dê o primeiro passo rumo à autonomia e segurança.</p>
+        </div>
+        <div class="pricing-horizontal">
+            <div class="pricing-left">
+                <div class="pricing-badge"> </div>
+                <h2 class="pricing-title">Bengala Inteligente SecureStep</h2>
+                <p class="pricing-subtitle">Tecnologia que transforma vidas</p>
+                
+                <div class="price-container">
+                    <div class="price-main">R$ 1.388<span class="price-cents">,00</span></div>
+                    <p class="price-installments">ou 12x de R$ 94,83 sem juros</p>
+                </div>
+            </div>
+            
+            <div class="pricing-right">
+                <ul class="pricing-features">
+                    <li>Sensores ultrassônicos de alta precisão</li>
+                    <li>Tecnologia LiDAR e GPS integrada</li>
+                    <li>Inteligência Artificial para classificação de obstáculos</li>
+                    <li>Feedback multissensorial (som e vibração)</li>
+                    <li>Bateria com 24h de duração</li>
+                    <li>Resistente à água (IP67)</li>
+                    <li>Garantia de 1 ano</li>
+                    <li>Suporte técnico especializado</li>
+                </ul>
+                
+                <button class="primary-button pricing-button">Comprar Agora</button>
+            </div>
+        </div>
+    </section>
+
     <!-- Depoimentos -->
     <section class="section testimonials">
         <div class="section-title">
@@ -1180,6 +1245,7 @@
                     <li><a href="#sobre">Sobre</a></li>
                     <li><a href="#recursos">Recursos</a></li>
                     <li><a href="#como-funciona">Como Funciona</a></li>
+                    <li><a href="#precos">Preços</a></li>
                     <li><a href="#faq">Perguntas</a></li>
                 </ul>
             </div>
